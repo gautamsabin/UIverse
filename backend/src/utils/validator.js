@@ -25,7 +25,7 @@ export const emptyQueryValidator = (query, res) => {
 export const emptyFieldValidator = (data, res) => {
     var errorFlag = false;
     data.forEach((element) => {
-        if (element.length === 0) {
+        if (typeof element === "undefined" || element.length === 0) {
             errorFlag = true;
         }
     });

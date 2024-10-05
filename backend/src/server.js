@@ -4,6 +4,7 @@ import { Router } from "express";
 import cors from "cors"
 import databaseConfig from "./config/config.js";
 import categoryRouter from "./routes/categoryRoute.js";
+import websiteRouter from "./routes/websiteRoute.js";
 
 const app = express();
 const apiRoute = Router();
@@ -19,7 +20,9 @@ app.get('/', (req, res) => {
   res.send('Hello from the backend!');
 });
 
-apiRoute.use("/category", categoryRouter);
+apiRoute
+  .use("/category", categoryRouter)
+  .use("/website", websiteRouter);
 
 app.use("/api", apiRoute);
 

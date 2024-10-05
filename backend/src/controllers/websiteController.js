@@ -1,25 +1,34 @@
+import WebsiteModel from "../models/WebsiteModel.js";
 import CategoryModel from "../models/CategoryModel.js";
-import { emptyBodyValidator, bodyValidator, mongooseIdValidator } from "../utils/validator.js";
+import { emptyBodyValidator, bodyValidator, emptyFieldValidator, mongooseIdValidator } from "../utils/validator.js";
 import { okResponse, errorResponse } from "../utils/response.js";
 
-//POST Category
-export const addCategory = async (req, res) => {
+//POST Website
+export const addWebsite = async (req, res) => {
     try {
         if (emptyBodyValidator(req.body, res)) return;
-        let { name } = req.body;
-        if (!name) {
+        let { name, url, category, description } = req.body;
+        let fields = [name, url, category, description]
+        if (emptyFieldValidator(fields, res)) return;
+        const selectedCategory = await CategoryModel.findOne({ _id: category });
+        if (!selectedCategory) {
             return errorResponse({
-                status: 400,
-                message: "Category name is required.",
+                status: 200,
+                message: "Category id not found",
                 res,
             });
         }
-        let data = await new CategoryModel({ name }).save();
+        let data = await new WebsiteModel({
+            name,
+            url,
+            category,
+            description
+        }).save();
         okResponse({
             status: 200,
-            data, // The saved category data
+            data,
             res,
-            message: "Category added successfully",
+            message: "Website added successfully",
         });
     } catch (err) {
         errorResponse({
@@ -30,53 +39,53 @@ export const addCategory = async (req, res) => {
     }
 };
 
-//GET Category
-export const getAllCategory = async (req, res) => {
+//GET Website
+export const getAllWebsite = async (req, res) => {
     try {
         if (bodyValidator(req.body, res)) return;
-        let categories;
-        categories = await CategoryModel.find({});
-
-        //no category find
-        if (categories.length === 0) {
+        let websites;
+        websites = await WebsiteModel.find({});
+        //no Website find
+        if (websites.length === 0) {
             return okResponse({
                 status: 204,
                 data: [],
                 res,
-                message: "No categories found",
+                message: "No websites found",
             });
         }
         okResponse({
             status: 200,
-            data: categories,
+            data: websites,
             res,
-            message: "Categories retrieved successfully",
+            message: "websites retrieved successfully",
         });
     } catch (err) {
         errorResponse({ status: 500, message: err.message, res });
     }
 };
 
-//GET One Category
-export const getOneCategory = async (req, res) => {
+
+//GET One Website
+export const getOneWebsite = async (req, res) => {
     try {
         if (bodyValidator(req.body, res)) return;
         const { id } = req.params;
         if (mongooseIdValidator(id, res)) return;
-        const category = await CategoryModel.findById({
+        const website = await WebsiteModel.findById({
             _id: id,
         });
-        if (!category) {
+        if (!website) {
             errorResponse({
                 status: 204,
-                message: "Category not found",
+                message: "website not found",
                 res,
             });
         }
         okResponse({
             status: 200,
-            data: category,
-            message: 'Category found successfully',
+            data: website,
+            message: 'website found successfully',
             res,
         });
     } catch (err) {
@@ -88,25 +97,19 @@ export const getOneCategory = async (req, res) => {
     }
 };
 
-//UPDATE Category
-export const updateCategory = async (req, res) => {
+//Update Website
+export const updateWebsite = async (req, res) => {
     try {
         const { id } = req.params;
         if (mongooseIdValidator(id, res)) return;
-        let { name } = req.body;
-        if (!name) {
-            return errorResponse({
-                status: 400,
-                message: "Category name is required.",
-                res,
-            });
-        }
+        if (emptyBodyValidator(req.body, res)) return;
+        let { name, url, category, description } = req.body;
         let data;
-        data = await CategoryModel.findByIdAndUpdate(id, { name });
+        data = await WebsiteModel.findByIdAndUpdate(id, { name, url, category, description });
         if (!data) {
             return errorResponse({
                 status: 404,
-                message: "Category cannot be updated",
+                message: "Website cannot be updated",
                 res,
             });
         }
@@ -124,25 +127,25 @@ export const updateCategory = async (req, res) => {
     }
 };
 
-//DELETE Category
-export const deleteCategory = async (req, res) => {
+//DELETE Website
+export const deleteWebsite = async (req, res) => {
     try {
         const { id } = req.params;
         if (mongooseIdValidator(id, res)) return;
         if (bodyValidator(req.body, res)) return;
-        const category = await CategoryModel.findByIdAndDelete(id);
-        if (!category) {
+        const website = await WebsiteModel.findByIdAndDelete(id);
+        if (!website) {
             errorResponse({
                 status: 404,
-                message: 'Category not found.',
+                message: 'website not found.',
                 res
             });
         }
         okResponse({
             status: 200,
-            data: category,
+            data: website,
             res,
-            message: 'Category deleted successfully.'
+            message: 'website deleted successfully.'
         });
 
     } catch (err) {
