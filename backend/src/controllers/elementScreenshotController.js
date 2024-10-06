@@ -1,15 +1,15 @@
-import PageScreenshotModel from "../models/PageScreenshotModel.js";
+import ElementScreenshotModel from "../models/elementScreenshotModel.js";
 import WebsiteModel from "../models/WebsiteModel.js";
 import { emptyBodyValidator, bodyValidator, emptyFieldValidator, mongooseIdValidator } from "../utils/validator.js";
 import { okResponse, errorResponse } from "../utils/response.js";
 import { cloudinaryFileUpload, deleteCloudinaryImage } from "../helpers/cloudinary.js";
 
-//POST Page screenshots
-export const addPageScreenshot = async (req, res) => {
+//POST element screenshots
+export const addElementScreenshot = async (req, res) => {
     try {
         if (emptyBodyValidator(req.body, res)) return;
-        let { website, page, description } = req.body;
-        let fields = [website, page]
+        let { website, element } = req.body;
+        let fields = [website, element]
         if (emptyFieldValidator(fields, res)) return;
         const selectedWebsite = await WebsiteModel.findOne({ _id: website });
         if (!selectedWebsite) {
@@ -21,20 +21,17 @@ export const addPageScreenshot = async (req, res) => {
         }
         let image = {};
         req.file && (image = await cloudinaryFileUpload(req.file.path));
-
-
-        let data = await new PageScreenshotModel({
+        let data = await new ElementScreenshotModel({
             website,
-            page,
+            element,
             imageUrl: image.secureURL,
             imageId: image.publicId,
-            description
         }).save();
         okResponse({
             status: 200,
             data,
             res,
-            message: "Page screenshot added successfully",
+            message: "Element screenshot added successfully",
         });
     } catch (err) {
         errorResponse({
@@ -46,51 +43,51 @@ export const addPageScreenshot = async (req, res) => {
 };
 
 //GET all page screenshots
-export const getAllPageScreenshot = async (req, res) => {
+export const getAllElementScreenshot = async (req, res) => {
     try {
         if (bodyValidator(req.body, res)) return;
-        let pageScreenshots;
-        pageScreenshots = await PageScreenshotModel.find({});
+        let elementScreenshots;
+        elementScreenshots = await ElementScreenshotModel.find({});
         //no Website find
-        if (pageScreenshots.length === 0) {
+        if (elementScreenshots.length === 0) {
             return okResponse({
                 status: 204,
                 data: [],
                 res,
-                message: "No page screenshots found",
+                message: "No element screenshots found",
             });
         }
         okResponse({
             status: 200,
-            data: pageScreenshots,
+            data: elementScreenshots,
             res,
-            message: "Page screenshots retrieved successfully",
+            message: "Element screenshots retrieved successfully",
         });
     } catch (err) {
         errorResponse({ status: 500, message: err.message, res });
     }
 };
 
-//GET One Page Screenshot
-export const getOnePageScreenshot = async (req, res) => {
+//GET One Element Screenshot
+export const getOneElementScreenshot = async (req, res) => {
     try {
         if (bodyValidator(req.body, res)) return;
         const { id } = req.params;
         if (mongooseIdValidator(id, res)) return;
-        const pageScreenshot = await PageScreenshotModel.findById({
+        const elementScreenshot = await ElementScreenshotModel.findById({
             _id: id,
         });
-        if (!pageScreenshot) {
+        if (!elementScreenshot) {
             errorResponse({
                 status: 204,
-                message: "Page screenshot not found",
+                message: "Element screenshot not found",
                 res,
             });
         }
         okResponse({
             status: 200,
-            data: pageScreenshot,
-            message: 'Page screenshot found successfully',
+            data: elementScreenshot,
+            message: 'Element screenshot found successfully',
             res,
         });
     } catch (err) {
@@ -103,17 +100,17 @@ export const getOnePageScreenshot = async (req, res) => {
 };
 
 //Update Screenshot
-export const updatePageScreenshot = async (req, res) => {
+export const updateElementScreenshot = async (req, res) => {
     try {
         const { id } = req.params;
         if (mongooseIdValidator(id, res)) return;
         if (emptyBodyValidator(req.body, res)) return;
-        let { website, page, description } = req.body;
-        const selectedPageScreenshot = await PageScreenshotModel.findOne({ _id: id });
-        if (!selectedPageScreenshot) {
+        let { website, element } = req.body;
+        const selectedElementScreenshot = await ElementScreenshotModel.findOne({ _id: id });
+        if (!selectedElementScreenshot) {
             return errorResponse({
                 status: 200,
-                message: "Page screenshot id not found",
+                message: "Element screenshot id not found",
                 res,
             });
         }
@@ -126,25 +123,24 @@ export const updatePageScreenshot = async (req, res) => {
             })
         }
         //req.file && (image = await cloudinaryFileUpload(req.file.path));
-        if (req.file) {
+        if (typeof req.file !== 'undefined' && req.file) {
             image = image = await cloudinaryFileUpload(req.file.path);
-            const pageScreenshot = await PageScreenshotModel.findOne({ _id: id });
-            const imagePublicId = pageScreenshot._doc.imageId;
+            const elementScreenshot = await ElementScreenshotModel.findOne({ _id: id });
+            const imagePublicId = elementScreenshot._doc.imageId;
             //delete the image from cloudinary
             await deleteCloudinaryImage(imagePublicId);
         }
         let data;
-        data = await PageScreenshotModel.findByIdAndUpdate(id, {
+        data = await ElementScreenshotModel.findByIdAndUpdate(id, {
             website,
-            page,
+            element,
             imageUrl: image.secureURL,
-            imageId: image.publicId,
-            description
+            imageId: image.publicId
         });
         if (!data) {
             return errorResponse({
                 status: 404,
-                message: "Page screenshot cannot be updated",
+                message: "Element screenshot cannot be updated",
                 res,
             });
         }
@@ -162,33 +158,33 @@ export const updatePageScreenshot = async (req, res) => {
     }
 };
 
-//DELETE page screenshot
-export const deletePageScreenshot = async (req, res) => {
+//DELETE element screenshot
+export const deleteElementScreenshot = async (req, res) => {
     try {
         const { id } = req.params;
         if (mongooseIdValidator(id, res)) return;
         if (bodyValidator(req.body, res)) return;
-        const pageScreenshot = await PageScreenshotModel.findOne({ _id: id });
-        if (!pageScreenshot) {
+        const elementScreenshot = await ElementScreenshotModel.findOne({ _id: id });
+        if (!elementScreenshot) {
             errorResponse({
                 status: 404,
-                message: 'pageScreenshot not found.',
+                message: 'Element screenshot not found.',
                 res
             });
         }
-        const imagePublicId = pageScreenshot._doc.imageId;
+        const imagePublicId = elementScreenshot._doc.imageId;
 
         //delete the image from cloudinary
         await deleteCloudinaryImage(imagePublicId);
 
         //delete the screenshots from database
-        await PageScreenshotModel.findByIdAndDelete(id);
+        await ElementScreenshotModel.findByIdAndDelete(id);
 
         okResponse({
             status: 200,
-            data: pageScreenshot,
+            data: elementScreenshot,
             res,
-            message: 'Page screenshot deleted successfully.'
+            message: 'Element screenshot deleted successfully.'
         });
 
     } catch (err) {
