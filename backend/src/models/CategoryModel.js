@@ -8,7 +8,7 @@ export default mongoose.model(
         {
             name: {
                 type: String,
-                require: true
+                required: true
             }
 
         },
