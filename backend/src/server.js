@@ -6,6 +6,7 @@ import databaseConfig from "./config/config.js";
 import categoryRouter from "./routes/categoryRoute.js";
 import websiteRouter from "./routes/websiteRoute.js";
 import pageScreenshotRoute from "./routes/pageScreenshotRoute.js";
+import elementScreenshotRoute from "./routes/elementScreenshotRoute.js";
 
 const app = express();
 const apiRoute = Router();
@@ -25,6 +26,7 @@ apiRoute
   .use("/category", categoryRouter)
   .use("/website", websiteRouter)
   .use("/pageScreenshot", pageScreenshotRoute)
+  .use("/elementScreenshot", elementScreenshotRoute);
 
 app.use("/api", apiRoute);
 
