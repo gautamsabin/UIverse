@@ -5,6 +5,7 @@ import cors from "cors"
 import databaseConfig from "./config/config.js";
 import categoryRouter from "./routes/categoryRoute.js";
 import websiteRouter from "./routes/websiteRoute.js";
+import pageScreenshotRoute from "./routes/pageScreenshotRoute.js";
 
 const app = express();
 const apiRoute = Router();
@@ -22,7 +23,8 @@ app.get('/', (req, res) => {
 
 apiRoute
   .use("/category", categoryRouter)
-  .use("/website", websiteRouter);
+  .use("/website", websiteRouter)
+  .use("/pageScreenshot", pageScreenshotRoute)
 
 app.use("/api", apiRoute);
 
