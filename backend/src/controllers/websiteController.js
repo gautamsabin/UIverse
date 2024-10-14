@@ -79,21 +79,21 @@ export const getOneWebsite = async (req, res) => {
         }).populate("category", 'name');
         const pageScreenshots = await PageScreenshotModel.find({ website: website._id });
         const elementScreenshots = await ElementScreenshotModel.find({ website: website._id });
-        let pageScreenshotsdata = pageScreenshots.map((obj) => ({
+        let pageScreenshotsData = pageScreenshots.map((obj) => ({
             pageType: obj._doc.page,
             imageUrl: obj._doc.imageUrl,
             description: obj._doc.description
         }));
 
-        let elementScreenshotsdata = elementScreenshots.map((obj) => ({
+        let elementScreenshotsData = elementScreenshots.map((obj) => ({
             elementType: obj._doc.element,
             imageUrl: obj._doc.imageUrl
         }))
 
         let data = {
             website,
-            pageScreenshotsdata,
-            elementScreenshotsdata
+            pageScreenshotsData,
+            elementScreenshotsData
         }
         if (!website) {
             errorResponse({

@@ -71,9 +71,10 @@ export const getAllElementScreenshot = async (req, res) => {
 export const getScreenshotsByElementTypes = async (req, res) => {
     try {
         if (bodyValidator(req.body, res)) return;
-        let elementType = req.params.elementType || "";
+        let elementTypes = req.query.elementTypes
+        const typesArray = elementTypes ? elementTypes.split(",") : [];
         let elementScreenshots;
-        elementScreenshots = await ElementScreenshotModel.find({ element: elementType }).populate("website", 'name url');
+        elementScreenshots = await ElementScreenshotModel.find({ element: { $in: typesArray } }).populate("website", 'name url');
         //no Website find
         if (elementScreenshots.length === 0) {
             return okResponse({

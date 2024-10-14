@@ -4,13 +4,15 @@ import {
     getAllCategory,
     getOneCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    getCategoryWise
 } from "../controllers/categoryController.js"
 
 const categoryRouter = Router();
 
 categoryRouter.post("/", addCategory);
 categoryRouter.get("/", getAllCategory);
+categoryRouter.get("/search/", getCategoryWise);
 categoryRouter.get("/:id", getOneCategory);
 categoryRouter.patch("/:id", updateCategory);
 categoryRouter.delete("/:id", deleteCategory);
