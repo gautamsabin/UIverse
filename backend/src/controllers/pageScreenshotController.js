@@ -50,7 +50,7 @@ export const getAllPageScreenshot = async (req, res) => {
     try {
         if (bodyValidator(req.body, res)) return;
         let pageScreenshots;
-        pageScreenshots = await PageScreenshotModel.find({});
+        pageScreenshots = await PageScreenshotModel.find({}).populate("website", "name url");
         //no Website find
         if (pageScreenshots.length === 0) {
             return okResponse({
@@ -79,7 +79,7 @@ export const getOnePageScreenshot = async (req, res) => {
         if (mongooseIdValidator(id, res)) return;
         const pageScreenshot = await PageScreenshotModel.findById({
             _id: id,
-        });
+        }).populate("website", "name url");
         if (!pageScreenshot) {
             errorResponse({
                 status: 204,
@@ -101,6 +101,33 @@ export const getOnePageScreenshot = async (req, res) => {
         });
     }
 };
+
+//Get By Page Types
+export const getScreenshotsByPageTypes = async (req, res) => {
+    try {
+        if (bodyValidator(req.body, res)) return;
+        let pageType = req.params.pageType || " ";
+        let pageScreenshots;
+        pageScreenshots = await PageScreenshotModel.find({ page: pageType }).populate("website", "name url");
+        //no Website find
+        if (pageScreenshots.length === 0) {
+            return okResponse({
+                status: 204,
+                data: [],
+                res,
+                message: "No page screenshots found",
+            });
+        }
+        okResponse({
+            status: 200,
+            data: pageScreenshots,
+            res,
+            message: "Page screenshots retrieved successfully",
+        });
+    } catch (err) {
+        errorResponse({ status: 500, message: err.message, res });
+    }
+}
 
 //Update Screenshot
 export const updatePageScreenshot = async (req, res) => {
