@@ -47,7 +47,7 @@ export const getAllElementScreenshot = async (req, res) => {
     try {
         if (bodyValidator(req.body, res)) return;
         let elementScreenshots;
-        elementScreenshots = await ElementScreenshotModel.find({});
+        elementScreenshots = await ElementScreenshotModel.find({}).populate("website", 'name url');
         //no Website find
         if (elementScreenshots.length === 0) {
             return okResponse({
@@ -67,7 +67,32 @@ export const getAllElementScreenshot = async (req, res) => {
         errorResponse({ status: 500, message: err.message, res });
     }
 };
-
+//Get By Elements Types
+export const getScreenshotsByElementTypes = async (req, res) => {
+    try {
+        if (bodyValidator(req.body, res)) return;
+        let elementType = req.params.elementType || "";
+        let elementScreenshots;
+        elementScreenshots = await ElementScreenshotModel.find({ element: elementType }).populate("website", 'name url');
+        //no Website find
+        if (elementScreenshots.length === 0) {
+            return okResponse({
+                status: 204,
+                data: [],
+                res,
+                message: "No element screenshots found",
+            });
+        }
+        okResponse({
+            status: 200,
+            data: elementScreenshots,
+            res,
+            message: "Element screenshots retrieved successfully",
+        });
+    } catch (err) {
+        errorResponse({ status: 500, message: err.message, res });
+    }
+}
 //GET One Element Screenshot
 export const getOneElementScreenshot = async (req, res) => {
     try {
@@ -76,7 +101,7 @@ export const getOneElementScreenshot = async (req, res) => {
         if (mongooseIdValidator(id, res)) return;
         const elementScreenshot = await ElementScreenshotModel.findById({
             _id: id,
-        });
+        }).populate("website", 'name url');
         if (!elementScreenshot) {
             errorResponse({
                 status: 204,
@@ -195,4 +220,5 @@ export const deleteElementScreenshot = async (req, res) => {
         });
     }
 }
+
 

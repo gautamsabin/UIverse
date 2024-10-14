@@ -8,7 +8,7 @@ export default mongoose.model(
         {
             name: {
                 type: String,
-                required: true
+                required: true,
             },
             url: {
                 type: String,
@@ -17,7 +17,7 @@ export default mongoose.model(
             category: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "category",
-                required:true
+                required: true
             },
             description: {
                 type: String,
