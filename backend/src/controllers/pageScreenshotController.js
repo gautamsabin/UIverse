@@ -106,9 +106,10 @@ export const getOnePageScreenshot = async (req, res) => {
 export const getScreenshotsByPageTypes = async (req, res) => {
     try {
         if (bodyValidator(req.body, res)) return;
-        let pageType = req.params.pageType || " ";
+        let pageTypes = req.query.pageTypes
+        const typesArray = pageTypes ? pageTypes.split(",") : [];
         let pageScreenshots;
-        pageScreenshots = await PageScreenshotModel.find({ page: pageType }).populate("website", "name url");
+        pageScreenshots = await PageScreenshotModel.find({ page: { $in: typesArray } }).populate("website", "name url");
         //no Website find
         if (pageScreenshots.length === 0) {
             return okResponse({

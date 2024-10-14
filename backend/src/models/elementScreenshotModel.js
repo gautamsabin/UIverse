@@ -17,6 +17,9 @@ export default mongoose.model(
                 enum: [
                     'dashboardChart',
                     'table',
+                    'button',
+                    'searchbar',
+                    'checkbox',
                     'form',
                     'navigationMenu',
                     'card',
