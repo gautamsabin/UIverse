@@ -9,8 +9,8 @@ import { okResponse, errorResponse } from "../utils/response.js";
 export const addWebsite = async (req, res) => {
     try {
         if (emptyBodyValidator(req.body, res)) return;
-        let { name, url, category, description } = req.body;
-        let fields = [name, url, category, description]
+        let { name, url, category, fonts, colors, description } = req.body;
+        let fields = [name, url, category, fonts, colors, description]
         if (emptyFieldValidator(fields, res)) return;
         const selectedCategory = await CategoryModel.findOne({ _id: category });
         if (!selectedCategory) {
@@ -24,6 +24,8 @@ export const addWebsite = async (req, res) => {
             name,
             url,
             category,
+            fonts,
+            colors,
             description
         }).save();
         okResponse({
@@ -123,9 +125,9 @@ export const updateWebsite = async (req, res) => {
         const { id } = req.params;
         if (mongooseIdValidator(id, res)) return;
         if (emptyBodyValidator(req.body, res)) return;
-        let { name, url, category, description } = req.body;
+        let { name, url, category, fonts, colors, description } = req.body;
         let data;
-        data = await WebsiteModel.findByIdAndUpdate(id, { name, url, category, description });
+        data = await WebsiteModel.findByIdAndUpdate(id, { name, url, category, fonts, colors, description });
         if (!data) {
             return errorResponse({
                 status: 404,
