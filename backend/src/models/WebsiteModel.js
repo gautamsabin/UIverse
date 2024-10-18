@@ -8,19 +8,20 @@ export default mongoose.model(
         {
             name: {
                 type: String,
-                require: true
+                required: true,
             },
             url: {
                 type: String,
-                require: true
+                required: true
             },
             category: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "category",
+                required: true
             },
             description: {
                 type: String,
-                require: true
+                required: true
             },
             fonts: {
                 type: String,

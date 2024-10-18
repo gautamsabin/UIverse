@@ -1,4 +1,5 @@
 import CategoryModel from "../models/CategoryModel.js";
+import WebsiteModel from "../models/WebsiteModel.js";
 import { emptyBodyValidator, bodyValidator, mongooseIdValidator } from "../utils/validator.js";
 import { okResponse, errorResponse } from "../utils/response.js";
 
@@ -66,6 +67,46 @@ export const getOneCategory = async (req, res) => {
         const category = await CategoryModel.findById({
             _id: id,
         });
+        const websitesInCategory = await WebsiteModel.find({ category: category._id });
+        let data;
+        let websitesInCategoryData = websitesInCategory.map((obj) => ({
+            name: obj._doc.name,
+            url: obj._doc.url,
+        }));
+        data = {
+            category,
+            websitesInCategoryData
+        }
+        if (!category) {
+            errorResponse({
+                status: 204,
+                message: "Category not found",
+                res,
+            });
+        }
+        okResponse({
+            status: 200,
+            data,
+            message: 'Category found successfully',
+            res,
+        });
+    } catch (err) {
+        errorResponse({
+            status: 500,
+            message: err.message,
+            res,
+        });
+    }
+};
+
+//Filter Category wise
+export const getCategoryWise = async (req, res) => {
+    try {
+        if (bodyValidator(req.body, res)) return;
+        const categories = req.query.name;
+        const categoryArray = categories ? categories.split(",") : [];
+        let category;
+        category = await CategoryModel.find({ name: { $in: categoryArray } });
         if (!category) {
             errorResponse({
                 status: 204,
