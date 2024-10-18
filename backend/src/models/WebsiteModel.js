@@ -21,6 +21,14 @@ export default mongoose.model(
             description: {
                 type: String,
                 require: true
+            },
+            fonts: {
+                type: String,
+                required: true
+            },
+            colors: {
+                type: String,
+                required: true
             }
         },
         {
