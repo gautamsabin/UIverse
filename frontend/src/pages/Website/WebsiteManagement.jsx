@@ -40,14 +40,14 @@ const WebsiteManagementPage = () => {
     };
 
     const handleOpenDialog = (website = null) => {
-        setSelectedWebsite(website || { name: "", url: "", category: "", description: "" });
+        setSelectedWebsite(website || { name: "", url: "", category: "", fonts: "", colors:"", description: "" });
         setIsEditing(Boolean(website));
         setOpenDialog(true);
     };
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
-        setSelectedWebsite({ name: "", url: "", category: "", description: "" });
+        setSelectedWebsite({ name: "", url: "", category: "", fonts: "", colors: "", description: "" });
     };
 
     const handleInputChange = (e) => {
@@ -59,6 +59,8 @@ const WebsiteManagementPage = () => {
             name: selectedWebsite.name,
             url: selectedWebsite.url,
             category: selectedWebsite.category,
+            fonts: selectedWebsite.fonts,
+            colors: selectedWebsite.colors,
             description: selectedWebsite.description
         }
         if (isEditing) {
@@ -73,6 +75,7 @@ const WebsiteManagementPage = () => {
         } else {
             // Add new website
             try {
+                console.log(websiteData)
                 await axios.post("http://localhost:5000/api/website", websiteData);
                 fetchWebsites();
                 handleCloseDialog();
