@@ -109,7 +109,7 @@ const WebsiteManagementPage = () => {
         <div>
             <div style={{ display: 'flex' }}>
                 <SidebarMenu />
-                <div style={{ marginLeft: 250, padding: 20 }}>
+                <div style={{ marginLeft: 50, padding: 20 }}>
                     <h1>Website Management</h1>
 
                     <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>

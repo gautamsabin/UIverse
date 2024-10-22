@@ -4,7 +4,6 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    TextField,
     Button,
     Select,
     MenuItem,
@@ -12,12 +11,10 @@ import {
     FormControl,
 } from "@mui/material";
 
-const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, pageScreenshot, websites }) => {
+const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, elementScreenshot, websites }) => {
     const [imageFile, setImageFile] = useState(null);
-    const [selectedWebsite, setSelectedWebsite] = useState(pageScreenshot.website || "");
-    const [pageType, setPageType] = useState(pageScreenshot.pageType || "");
-    const [description, setDescription] = useState(pageScreenshot.description || "");
-
+    const [selectedWebsite, setSelectedWebsite] = useState(elementScreenshot.website || "");
+    const [element, setElement] = useState(elementScreenshot.element || "");
     // Handle file input change
     const handleFileChange = (e) => {
         setImageFile(e.target.files[0]);
@@ -27,8 +24,8 @@ const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, 
     const handleSubmitWithFile = async () => {
         const formData = new FormData();
         formData.append("website", selectedWebsite._id);   // Append website ID
-        formData.append("pageType", pageType);         // Append page type
-        formData.append("description", description);   // Append description
+        formData.append("element", element);         // Append page type
+        // Append description
 
         if (imageFile) {
             formData.append("image", imageFile);       // Append image file only if it exists
@@ -45,12 +42,12 @@ const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, 
 
     // Update form state when pageScreenshot prop changes
     useEffect(() => {
-        setSelectedWebsite(pageScreenshot.website || "");
-        setPageType(pageScreenshot.pageType || "");
-        setDescription(pageScreenshot.description || "");
+        setSelectedWebsite(elementScreenshot.website || "");
+        setElement(elementScreenshot.element || "");
+
         // Reset image file if switching between different screenshots
         setImageFile(null);
-    }, [pageScreenshot]);
+    }, [elementScreenshot]);
 
     return (
         <Dialog open={open} onClose={handleClose}>
@@ -73,31 +70,20 @@ const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, 
                 </FormControl>
 
                 <FormControl fullWidth margin="dense">
-                    <InputLabel id="page-type-select-label">Page Type</InputLabel>
+                    <InputLabel id="element-select-label">Element</InputLabel>
                     <Select
-                        labelId="page-type-select-label"
-                        value={pageType}
-                        onChange={(e) => setPageType(e.target.value)}
+                        labelId="element-select-label"
+                        value={element}
+                        onChange={(e) => setElement(e.target.value)}
                         required
                     >
                         {/* Your page type options */}
-                        <MenuItem value="landing">Landing</MenuItem>
-                        <MenuItem value="dashboard">Dashboard</MenuItem>
-                        <MenuItem value="about">About</MenuItem>
+                        <MenuItem value="card">Card</MenuItem>
+                        <MenuItem value="table">Table</MenuItem>
+                        <MenuItem value="button">Button</MenuItem>
                         {/* Add remaining options */}
                     </Select>
                 </FormControl>
-
-                <TextField
-                    margin="dense"
-                    name="description"
-                    label="Description"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
 
                 <input
                     type="file"
