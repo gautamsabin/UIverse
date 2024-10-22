@@ -15,7 +15,7 @@ export default mongoose.model(
                 type: String,
                 required: true,
                 enum: [
-                    'dashboardChart',
+                    'Chart',
                     'table',
                     'button',
                     'searchbar',

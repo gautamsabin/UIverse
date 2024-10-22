@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import axios from "axios";
-import PageScreenshotTable from "../../components/PageScreenshots/PageScreenshotTable.jsx"; // Adjust path as needed
-import PageScreenshotFormDialog from "../../components/PageScreenshots/PageScreenshotFormDialog.jsx"; // Adjust path as needed
+import ElementScreenshotTable from "../../components/ElementScreenshots/ElementScreenshotTable.jsx"; // Adjust path as needed
+import ElementScreenshotFormDialog from "../../components/ElementScreenshots/ElementScreenshotFormDialog.jsx"; // Adjust path as needed
 import DeleteConfirmationDialog from "../../components/DeleteConfirmationDialog.jsx"; // Adjust path as needed
 import SidebarMenu from "../../components/SidebarMenu.jsx";
 
 const PageScreenshotManagementPage = () => {
-    const [pageScreenshots, setPageScreenshots] = useState([]);
+    const [elementScreenshots, setElementScreenshots] = useState([]);
     const [websites, setWebsites] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [selectedPageScreenshot, setSelectedPageScreenshot] = useState({ description: "", website: "", page: "", image: "" });
+    const [selectedElementScreenshot, setSelectedElementScreenshot] = useState({ website: "", page: "", image: "" });
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [deleteScreenshotId, setDeleteScreenshotId] = useState(null);
 
     // Fetch page screenshots and websites on component mount
     useEffect(() => {
-        fetchPageScreenshots();
+        fetchElementScreenshots();
         fetchWebsites();
     }, []);
 
-    const fetchPageScreenshots = async () => {
+    const fetchElementScreenshots = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/pagescreenshot");
-            setPageScreenshots(response.data.payload.data);
+            const response = await axios.get("http://localhost:5000/api/elementscreenshot");
+            setElementScreenshots(response.data.payload.data);
         } catch (error) {
             console.error("Error fetching page screenshots:", error);
         }
@@ -40,47 +40,46 @@ const PageScreenshotManagementPage = () => {
     };
 
     const handleOpenDialog = (screenshot = null) => {
-        setSelectedPageScreenshot(screenshot || { description: "", website: "", page: "", image: "" });
+        setSelectedElementScreenshot(screenshot || { website: "", page: "", image: "" });
         setIsEditing(Boolean(screenshot));
         setOpenDialog(true);
     };
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
-        setSelectedPageScreenshot({ description: "", website: "", page: "", image: "" });
+        setSelectedElementScreenshot({ website: "", page: "", image: "" });
     };
 
     const handleSubmit = async (formData) => {
         const data = {
             website: formData.get('website'),
-            page: formData.get('pageType'),
+            element: formData.get('element'),
             image: formData.get('image'),
-            description: formData.get('description')
         };
         console.log(data, "post data")
         if (isEditing) {
 
             // Update existing screenshot
             try {
-                await axios.patch(`http://localhost:5000/api/pagescreenshot/${selectedPageScreenshot._id}`, data, {
+                await axios.patch(`http://localhost:5000/api/elementscreenshot/${selectedElementScreenshot._id}`, data, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                fetchPageScreenshots(); // Refresh the list
+                fetchElementScreenshots(); // Refresh the list
                 handleCloseDialog();
             } catch (error) {
-                console.error("Error updating page screenshot:", error);
+                console.error("Error updating element screenshot:", error);
             }
         } else {
             // Add new screenshot
             try {
-                await axios.post("http://localhost:5000/api/pagescreenshot", data, {
+                await axios.post("http://localhost:5000/api/elementscreenshot", data, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                fetchPageScreenshots(); // Refresh the list
+                fetchElementScreenshots(); // Refresh the list
                 handleCloseDialog();
             } catch (error) {
                 console.error("Error adding page screenshot:", error);
@@ -90,8 +89,8 @@ const PageScreenshotManagementPage = () => {
 
     const handleDeleteScreenshot = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/pagescreenshot/${deleteScreenshotId}`);
-            fetchPageScreenshots(); // Refresh the list
+            await axios.delete(`http://localhost:5000/api/elementscreenshot/${deleteScreenshotId}`);
+            fetchElementScreenshots(); // Refresh the list
             handleCloseDeleteModal();
         } catch (error) {
             console.error("Error deleting page screenshot:", error);
@@ -119,19 +118,19 @@ const PageScreenshotManagementPage = () => {
                     </Button>
 
                     {/* Page Screenshot Table */}
-                    <PageScreenshotTable
-                        pageScreenshots={pageScreenshots}
+                    <ElementScreenshotTable
+                        elementScreenshots={elementScreenshots}
                         onEdit={handleOpenDialog}
                         onDelete={handleOpenDeleteModal}
                     />
 
                     {/* Add/Edit Dialog */}
-                    <PageScreenshotFormDialog
+                    <ElementScreenshotFormDialog
                         open={openDialog}
                         handleClose={handleCloseDialog}
                         handleSubmit={handleSubmit}
                         isEditing={isEditing}
-                        pageScreenshot={selectedPageScreenshot}
+                        elementScreenshot={selectedElementScreenshot}
                         websites={websites}
                     />
 

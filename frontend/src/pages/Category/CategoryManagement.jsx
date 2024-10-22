@@ -44,7 +44,6 @@ const CategoryManagementPage = () => {
     };
 
     const handleSubmit = async () => {
-        
         if (isEditing) {
             // Update category
             try {
@@ -90,7 +89,7 @@ const CategoryManagementPage = () => {
         <div>
             <div style={{ display: 'flex' }}>
                 <SidebarMenu />
-                <div style={{ marginLeft: 250, padding: 20 }}>
+                <div style={{ marginLeft: 50, padding: 20 }}>
                     <h1>Category Management</h1>
                     <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
                         Add Category

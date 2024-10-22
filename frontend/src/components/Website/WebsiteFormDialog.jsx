@@ -51,6 +51,22 @@ const WebsiteFormDialog = ({ open, handleClose, website, handleInputChange, hand
                 </FormControl>
                 <TextField
                     margin="dense"
+                    name="fonts"
+                    label="Website fonts"
+                    fullWidth
+                    value={website.fonts}
+                    onChange={handleInputChange}
+                />
+                <TextField
+                    margin="dense"
+                    name="colors"
+                    label="Website colors"
+                    fullWidth
+                    value={website.colors}
+                    onChange={handleInputChange}
+                />
+                <TextField
+                    margin="dense"
                     name="description"
                     label="Description"
                     type="text"

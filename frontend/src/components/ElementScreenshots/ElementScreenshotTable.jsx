@@ -1,26 +1,24 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from "@mui/material";
 
-const PageScreenshotTable = ({ pageScreenshots, onEdit, onDelete }) => {
+const PageScreenshotTable = ({ elementScreenshots, onEdit, onDelete }) => {
     return (
         <TableContainer>
             <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell>Website</TableCell>
-                        <TableCell>Page Type</TableCell>
+                        <TableCell>Element Type</TableCell>
                         <TableCell>Image URL</TableCell>
-                        <TableCell>Description</TableCell>
                         <TableCell>Actions</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {pageScreenshots.map((screenshot) => (
+                    {elementScreenshots.map((screenshot) => (
                         <TableRow key={screenshot._id}>
                             <TableCell>{screenshot.website.name}</TableCell>
-                            <TableCell>{screenshot.page}</TableCell>
+                            <TableCell>{screenshot.element}</TableCell>
                             <TableCell><img src={screenshot.imageUrl} alt={screenshot.description} style={{ width: "100px", height: "150px", objectFit: "contain", objectPosition: "25% 25%" }}></img></TableCell>
-                            <TableCell>{screenshot.description}</TableCell>
 
                             <TableCell>
                                 <Button onClick={() => onEdit(screenshot)}>Edit</Button>

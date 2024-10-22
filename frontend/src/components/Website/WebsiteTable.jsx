@@ -19,16 +19,23 @@ const WebsiteTable = ({ websites, onEdit, onDelete }) => {
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
+                        <TableCell>Category</TableCell>
                         <TableCell>URL</TableCell>
-                        <TableCell>Actions</TableCell>
+                        <TableCell>Fonts</TableCell>
+                        <TableCell>Colors</TableCell>
                         <TableCell>Description</TableCell>
+                        <TableCell>Actions</TableCell>
+
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {websites.map((website) => (
                         <TableRow key={website._id}>
                             <TableCell>{website.name}</TableCell>
+                            <TableCell>{website.category.name}</TableCell>
                             <TableCell>{website.url}</TableCell>
+                            <TableCell>{website.fonts}</TableCell>
+                            <TableCell>{website.colors}</TableCell>
                             <TableCell>{website.description}</TableCell>
                             <TableCell>
                                 <IconButton color="primary" onClick={() => onEdit(website)}>
