@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import CategoryModel from "../models/CategoryModel.js";
 import WebsiteModel from "../models/WebsiteModel.js";
 import { emptyBodyValidator, bodyValidator, mongooseIdValidator } from "../utils/validator.js";
@@ -131,6 +132,7 @@ export const getCategoryWise = async (req, res) => {
 
 //UPDATE Category
 export const updateCategory = async (req, res) => {
+    const session = await mongoose.startSession();
     try {
         const { id } = req.params;
         if (mongooseIdValidator(id, res)) return;
@@ -142,26 +144,63 @@ export const updateCategory = async (req, res) => {
                 res,
             });
         }
-        let data;
-        data = await CategoryModel.findByIdAndUpdate(id, { name });
-        if (!data) {
+
+        session.startTransaction()
+        // Find the category by id
+        let category = await CategoryModel.findById(id).session(session);
+        if (!category) {
             return errorResponse({
                 status: 404,
                 message: "Category cannot be updated",
                 res,
             });
         }
-        okResponse({
-            status: 200,
-            data,
-            res
-        })
+
+        let websitesInCategory = await WebsiteModel.find({ category: id }).session(session);
+        if (websitesInCategory.length === 0) {
+            //update the category name
+            category.name = name;
+            //update the category object back to the database
+            await category.save({ session });
+            await session.commitTransaction(); // Commit the transaction
+
+            return okResponse({
+                status: 200,
+                data: category,
+                res,
+                message: "Category updated successfully (no websites associated).",
+            });
+        } else {
+            //if the website are associated, update both category and website
+            //update category
+            category.name = name;
+            await category.save({ session });
+
+            //update all the relative website
+            await WebsiteModel.updateMany(
+                { category: id }, // Filter to find all websites with this category ID
+                { category: category._id }, // Update their category ID if needed
+                { session }
+            );
+
+            // Commit the transaction
+            await session.commitTransaction();
+            okResponse({
+                status: 200,
+                data: category,
+                res,
+                message: 'Category updated successfully, websites updated if any.',
+            });
+        }
     } catch (err) {
+        await session.abortTransaction(); // Rollback the transaction in case of error
         errorResponse({
             status: 500,
             message: err.message,
             res,
         });
+    } finally {
+        session.endSession();
     }
 };
 
@@ -171,20 +210,30 @@ export const deleteCategory = async (req, res) => {
         const { id } = req.params;
         if (mongooseIdValidator(id, res)) return;
         if (bodyValidator(req.body, res)) return;
-        const category = await CategoryModel.findByIdAndDelete(id);
-        if (!category) {
+        const websitesInCategory = await WebsiteModel.find({ category: id });
+        if (websitesInCategory.length > 0) {
             errorResponse({
                 status: 404,
-                message: 'Category not found.',
+                message: 'Website of this category exist.',
                 res
             });
+        } else {
+            const category = await CategoryModel.findByIdAndDelete(id);
+            if (!category) {
+                errorResponse({
+                    status: 404,
+                    message: 'Category not found.',
+                    res
+                });
+            }
+            okResponse({
+                status: 200,
+                data: category,
+                res,
+                message: 'Category deleted successfully.'
+            });
         }
-        okResponse({
-            status: 200,
-            data: category,
-            res,
-            message: 'Category deleted successfully.'
-        });
+
 
     } catch (err) {
         errorResponse({
