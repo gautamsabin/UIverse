@@ -13,6 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const WebsiteTable = ({ websites, onEdit, onDelete }) => {
+
     return (
         <TableContainer component={Paper} style={{ marginTop: "20px" }}>
             <Table>
@@ -35,7 +36,21 @@ const WebsiteTable = ({ websites, onEdit, onDelete }) => {
                             <TableCell>{website.category.name}</TableCell>
                             <TableCell>{website.url}</TableCell>
                             <TableCell>{website.fonts}</TableCell>
-                            <TableCell>{website.colors}</TableCell>
+                            <TableCell>
+                                {website.colors.split(',').map((color, index) => (
+                                    <div
+                                        key={index}
+                                        style={{
+                                            borderRadius: "100px",
+                                            height: "20px",
+                                            width: "20px",
+                                            backgroundColor: color.trim(), // Ensure colors are trimmed for valid values
+                                            display: "inline-block",
+                                            marginRight: "5px"
+                                        }}
+                                    ></div>
+                                ))}
+                            </TableCell>
                             <TableCell>{website.description}</TableCell>
                             <TableCell>
                                 <IconButton color="primary" onClick={() => onEdit(website)}>
