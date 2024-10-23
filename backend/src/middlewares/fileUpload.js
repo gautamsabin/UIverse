@@ -2,7 +2,7 @@ import multer from "multer";
 import path from "path";
 
 const filterImages = (file, cb) => {
-    const fileType = /jpeg|jpg|png/i;
+    const fileType = /jpeg|jpg|png|webp/i;
     const extName = fileType.test(path.extname(file.originalname));
     const mimeType = fileType.test(file.mimetype);
     if (extName && mimeType) {
