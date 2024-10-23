@@ -5,6 +5,7 @@ import WebsiteFormDialog from "../../components/Website/WebsiteFormDialog.jsx";
 import WebsiteTable from "../../components/Website/WebsiteTable.jsx";
 import DeleteConfirmationDialog from "../../components/DeleteConfirmationDialog.jsx";
 import SidebarMenu from "../../components/SidebarMenu.jsx";
+import ErrorMessage from "../../components/ErrorMessage.jsx";
 
 const WebsiteManagementPage = () => {
     const [websites, setWebsites] = useState([]);
@@ -14,6 +15,8 @@ const WebsiteManagementPage = () => {
     const [selectedWebsite, setSelectedWebsite] = useState({ name: "", url: "" });
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [deleteWebsiteId, setDeleteWebsiteId] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(''); // State for error message
+    const [openError, setOpenError] = useState(false); // State to control Snackbar visibility
 
     // Fetch websites on component mount
     useEffect(() => {
@@ -27,6 +30,8 @@ const WebsiteManagementPage = () => {
             setWebsites(response.data.payload.data);
         } catch (error) {
             console.error("Error fetching websites:", error);
+            setErrorMessage(error.response?.data?.message || "Failed to fetch website."); // Set the error message
+            setOpenError(true); // Open the Snackbar
         }
     };
 
@@ -36,11 +41,13 @@ const WebsiteManagementPage = () => {
             setCategories(response.data.payload.data); // Set fetched categories
         } catch (error) {
             console.error("Error fetching categories:", error);
+            setErrorMessage(error.response?.data?.message || "Failed to fetch category."); // Set the error message
+            setOpenError(true); // Open the Snackbar
         }
     };
 
     const handleOpenDialog = (website = null) => {
-        setSelectedWebsite(website || { name: "", url: "", category: "", fonts: "", colors:"", description: "" });
+        setSelectedWebsite(website || { name: "", url: "", category: "", fonts: "", colors: "", description: "" });
         setIsEditing(Boolean(website));
         setOpenDialog(true);
     };
@@ -71,6 +78,8 @@ const WebsiteManagementPage = () => {
                 handleCloseDialog();
             } catch (error) {
                 console.error("Error updating website:", error);
+                setErrorMessage(error.response?.data?.message || "Failed to update website."); // Set the error message
+                setOpenError(true); // Open the Snackbar
             }
         } else {
             // Add new website
@@ -81,6 +90,8 @@ const WebsiteManagementPage = () => {
                 handleCloseDialog();
             } catch (error) {
                 console.error("Error adding website:", error);
+                setErrorMessage(error.response?.data?.message || "Failed to app website."); // Set the error message
+                setOpenError(true); // Open the Snackbar
             }
         }
     };
@@ -92,6 +103,8 @@ const WebsiteManagementPage = () => {
             handleCloseDeleteModal();
         } catch (error) {
             console.error("Error deleting website:", error);
+            setErrorMessage(error.response?.data?.message || "Failed to delete website."); // Set the error message
+            setOpenError(true); // Open the Snackbar
         }
     };
 
@@ -104,6 +117,10 @@ const WebsiteManagementPage = () => {
         setOpenDeleteModal(false);
         setDeleteWebsiteId(null);
     };
+    const handleCloseErrorMessage = () => {
+        setOpenError(false); // Close the Snackbar
+    };
+
 
     return (
         <div>
@@ -136,6 +153,9 @@ const WebsiteManagementPage = () => {
                         handleClose={handleCloseDeleteModal}
                         handleDelete={handleDeleteWebsite}
                     />
+
+                    {/* Error Message Snackbar */}
+                    <ErrorMessage message={errorMessage} open={openError} onClose={handleCloseErrorMessage} />
                 </div>
             </div>
         </div>

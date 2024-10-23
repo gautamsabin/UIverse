@@ -5,6 +5,7 @@ import CategoryTable from "../../components/Category/CategoryTable.jsx";
 import CategoryFormDialog from "../../components/Category/CategoryFormDialog.jsx";
 import DeleteConfirmationDialog from "../../components/DeleteConfirmationDialog.jsx";
 import SidebarMenu from "../../components/SidebarMenu.jsx";
+import ErrorMessage from "../../components/ErrorMessage.jsx";
 
 const CategoryManagementPage = () => {
     const [categories, setCategories] = useState([]);
@@ -13,6 +14,8 @@ const CategoryManagementPage = () => {
     const [selectedCategory, setSelectedCategory] = useState({ name: "" });
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [deleteCategoryId, setDeleteCategoryId] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(''); // State for error message
+    const [openError, setOpenError] = useState(false); // State to control Snackbar visibility
 
     // Fetch categories on component mount
     useEffect(() => {
@@ -24,7 +27,9 @@ const CategoryManagementPage = () => {
             const response = await axios.get("http://localhost:5000/api/category");
             setCategories(response.data.payload.data);
         } catch (error) {
-            console.error("Error fetching categories:", error);
+            console.error("Error fetching categories:", error.response);
+            setErrorMessage(error.response?.data?.message || "Failed to fetch categories."); // Set the error message
+            setOpenError(true); // Open the Snackbar
         }
     };
 
@@ -52,6 +57,8 @@ const CategoryManagementPage = () => {
                 handleCloseDialog();
             } catch (error) {
                 console.error("Error updating category:", error);
+                setErrorMessage(error.response?.data?.message || "Failed to update category."); // Set the error message
+                setOpenError(true); // Open the Snackbar
             }
         } else {
             // Add new category
@@ -61,6 +68,8 @@ const CategoryManagementPage = () => {
                 handleCloseDialog();
             } catch (error) {
                 console.error("Error adding category:", error);
+                setErrorMessage(error.response?.data?.message || "Failed to add category."); // Set the error message
+                setOpenError(true); // Open the Snackbar
             }
         }
     };
@@ -72,6 +81,8 @@ const CategoryManagementPage = () => {
             handleCloseDeleteModal();
         } catch (error) {
             console.error("Error deleting category:", error);
+            setErrorMessage(error.response?.data?.message || "Failed to delete category."); // Set the error message
+            setOpenError(true); // Open the Snackbar
         }
     };
 
@@ -83,6 +94,9 @@ const CategoryManagementPage = () => {
     const handleCloseDeleteModal = () => {
         setOpenDeleteModal(false);
         setDeleteCategoryId(null);
+    };
+    const handleCloseErrorMessage = () => {
+        setOpenError(false); // Close the Snackbar
     };
 
     return (
@@ -114,6 +128,9 @@ const CategoryManagementPage = () => {
                         handleClose={handleCloseDeleteModal}
                         handleDelete={handleDeleteCategory}
                     />
+
+                    {/* Error Message Snackbar */}
+                    <ErrorMessage message={errorMessage} open={openError} onClose={handleCloseErrorMessage} />
                 </div>
             </div>
         </div>
