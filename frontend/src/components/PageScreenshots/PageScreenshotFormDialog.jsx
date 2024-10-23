@@ -90,6 +90,7 @@ const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, 
                         <MenuItem value="FAQs">FAQs</MenuItem>
                         <MenuItem value="features">Features</MenuItem>
                         <MenuItem value="landing">Landing</MenuItem>
+                        <MenuItem value="logo">Logo</MenuItem>
                         <MenuItem value="login">Login</MenuItem>
                         <MenuItem value="profile">Profile</MenuItem>
                         <MenuItem value="services">services</MenuItem>

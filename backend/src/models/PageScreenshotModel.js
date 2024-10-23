@@ -16,6 +16,7 @@ export default mongoose.model(
                 required: true,
                 enum: [
                     'landing',
+                    'logo',
                     'dashboard',
                     'about',
                     'services',
