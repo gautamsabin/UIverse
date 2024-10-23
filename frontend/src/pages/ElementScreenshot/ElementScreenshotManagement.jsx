@@ -5,6 +5,7 @@ import ElementScreenshotTable from "../../components/ElementScreenshots/ElementS
 import ElementScreenshotFormDialog from "../../components/ElementScreenshots/ElementScreenshotFormDialog.jsx"; // Adjust path as needed
 import DeleteConfirmationDialog from "../../components/DeleteConfirmationDialog.jsx"; // Adjust path as needed
 import SidebarMenu from "../../components/SidebarMenu.jsx";
+import ErrorMessage from "../../components/ErrorMessage.jsx";
 
 const PageScreenshotManagementPage = () => {
     const [elementScreenshots, setElementScreenshots] = useState([]);
@@ -14,6 +15,8 @@ const PageScreenshotManagementPage = () => {
     const [selectedElementScreenshot, setSelectedElementScreenshot] = useState({ website: "", page: "", image: "" });
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [deleteScreenshotId, setDeleteScreenshotId] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(''); // State for error message
+    const [openError, setOpenError] = useState(false); // State to control Snackbar visibility
 
     // Fetch page screenshots and websites on component mount
     useEffect(() => {
@@ -27,6 +30,8 @@ const PageScreenshotManagementPage = () => {
             setElementScreenshots(response.data.payload.data);
         } catch (error) {
             console.error("Error fetching page screenshots:", error);
+            setErrorMessage(error.response?.data?.message || "Failed to fetch screenshots."); // Set the error message
+            setOpenError(true); // Open the Snackbar
         }
     };
 
@@ -36,6 +41,8 @@ const PageScreenshotManagementPage = () => {
             setWebsites(response.data.payload.data);
         } catch (error) {
             console.error("Error fetching websites:", error);
+            setErrorMessage(error.response?.data?.message || "Failed to fetch website."); // Set the error message
+            setOpenError(true); // Open the Snackbar
         }
     };
 
@@ -70,6 +77,8 @@ const PageScreenshotManagementPage = () => {
                 handleCloseDialog();
             } catch (error) {
                 console.error("Error updating element screenshot:", error);
+                setErrorMessage(error.response?.data?.message || "Failed to update screenshot."); // Set the error message
+                setOpenError(true); // Open the Snackbar
             }
         } else {
             // Add new screenshot
@@ -83,6 +92,8 @@ const PageScreenshotManagementPage = () => {
                 handleCloseDialog();
             } catch (error) {
                 console.error("Error adding page screenshot:", error);
+                setErrorMessage(error.response?.data?.message || "Failed to add screenshot."); // Set the error message
+                setOpenError(true); // Open the Snackbar
             }
         }
     };
@@ -94,6 +105,8 @@ const PageScreenshotManagementPage = () => {
             handleCloseDeleteModal();
         } catch (error) {
             console.error("Error deleting page screenshot:", error);
+            setErrorMessage(error.response?.data?.message || "Failed to delete screenshot."); // Set the error message
+            setOpenError(true); // Open the Snackbar
         }
     };
 
@@ -106,6 +119,11 @@ const PageScreenshotManagementPage = () => {
         setOpenDeleteModal(false);
         setDeleteScreenshotId(null);
     };
+
+    const handleCloseErrorMessage = () => {
+        setOpenError(false); // Close the Snackbar
+    };
+
 
     return (
         <div>
@@ -140,6 +158,9 @@ const PageScreenshotManagementPage = () => {
                         handleClose={handleCloseDeleteModal}
                         handleDelete={handleDeleteScreenshot}
                     />
+
+                    {/* Error Message Snackbar */}
+                    <ErrorMessage message={errorMessage} open={openError} onClose={handleCloseErrorMessage} />
                 </div>
             </div>
         </div>
