@@ -81,9 +81,22 @@ const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, 
                         required
                     >
                         {/* Your page type options */}
-                        <MenuItem value="landing">Landing</MenuItem>
-                        <MenuItem value="dashboard">Dashboard</MenuItem>
                         <MenuItem value="about">About</MenuItem>
+                        <MenuItem value="blog">Blog</MenuItem>
+                        <MenuItem value="career">Career</MenuItem>
+                        <MenuItem value="catalog">Catalog</MenuItem>
+                        <MenuItem value="contact">Contact</MenuItem>
+                        <MenuItem value="dashboard">Dashboard</MenuItem>
+                        <MenuItem value="FAQs">FAQs</MenuItem>
+                        <MenuItem value="features">Features</MenuItem>
+                        <MenuItem value="landing">Landing</MenuItem>
+                        <MenuItem value="login">Login</MenuItem>
+                        <MenuItem value="profile">Profile</MenuItem>
+                        <MenuItem value="services">services</MenuItem>
+                        <MenuItem value="signup">Signup</MenuItem>
+                        <MenuItem value="team">Team</MenuItem>
+                        <MenuItem value="404">404</MenuItem>
+                        <MenuItem value="other">Other</MenuItem>
                         {/* Add remaining options */}
                     </Select>
                 </FormControl>

@@ -35,7 +35,6 @@ const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, 
         for (let [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
-        console.log(formData)
 
         await handleSubmit(formData);
     };
@@ -44,7 +43,6 @@ const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, 
     useEffect(() => {
         setSelectedWebsite(elementScreenshot.website || "");
         setElement(elementScreenshot.element || "");
-
         // Reset image file if switching between different screenshots
         setImageFile(null);
     }, [elementScreenshot]);
@@ -78,9 +76,45 @@ const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, 
                         required
                     >
                         {/* Your page type options */}
-                        <MenuItem value="card">Card</MenuItem>
+                        <MenuItem value="accordion">Accordion</MenuItem>
+                        <MenuItem value="alert">Alert</MenuItem>
+                        <MenuItem value="avatar">Avatar</MenuItem>
+                        <MenuItem value="badge">Badge</MenuItem>
+                        <MenuItem value="breadcrumb">Breadcrumb</MenuItem>
+                        <MenuItem value="calendar">Calendar</MenuItem>
+                        <MenuItem value="carousel">Carousel</MenuItem>
+                        <MenuItem value="dropdown">Dropdown</MenuItem>
+                        <MenuItem value="footer">Footer</MenuItem>
+                        <MenuItem value="header">Header</MenuItem>
+                        <MenuItem value="icon">Icon</MenuItem>
+                        <MenuItem value="image">Image</MenuItem>
+                        <MenuItem value="list">List</MenuItem>
+                        <MenuItem value="loader">Loader</MenuItem>
+                        <MenuItem value="modal">Modal</MenuItem>
+                        <MenuItem value="pagination">Pagination</MenuItem>
+                        <MenuItem value="popover">Popover</MenuItem>
+                        <MenuItem value="radioButton">Radio Button</MenuItem>
+                        <MenuItem value="sidebar">Sidebar</MenuItem>
+                        <MenuItem value="slider">Slider</MenuItem>
+                        <MenuItem value="stepper">Stepper</MenuItem>
+                        <MenuItem value="table">Table</MenuItem>
+                        <MenuItem value="textfield">Textfield</MenuItem>
+                        <MenuItem value="toast">Toast</MenuItem>
+                        <MenuItem value="tooltip">Tooltip</MenuItem>
                         <MenuItem value="table">Table</MenuItem>
                         <MenuItem value="button">Button</MenuItem>
+                        <MenuItem value="searchbar">Searchbar</MenuItem>
+                        <MenuItem value="checkbox">Checkbox</MenuItem>
+                        <MenuItem value="form">Form</MenuItem>
+                        <MenuItem value="navigationMenu">Navigation Menu</MenuItem>
+                        <MenuItem value="card">Card</MenuItem>
+                        <MenuItem value="module">Module</MenuItem>
+                        <MenuItem value="chart">Chart</MenuItem>
+                        <MenuItem value="progressBar">Progress Bar</MenuItem>
+                        <MenuItem value="tabs">Tabs</MenuItem>
+                        <MenuItem value="tags">Tags</MenuItem>
+                        <MenuItem value="blog">Blog</MenuItem>
+                        <MenuItem value="other">Other</MenuItem>
                         {/* Add remaining options */}
                     </Select>
                 </FormControl>
