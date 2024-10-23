@@ -1,5 +1,7 @@
 import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const PageScreenshotTable = ({ elementScreenshots, onEdit, onDelete }) => {
     return (
@@ -19,10 +21,13 @@ const PageScreenshotTable = ({ elementScreenshots, onEdit, onDelete }) => {
                             <TableCell>{screenshot.website.name}</TableCell>
                             <TableCell>{screenshot.element}</TableCell>
                             <TableCell><img src={screenshot.imageUrl} alt={screenshot.description} style={{ width: "100px", height: "150px", objectFit: "contain", objectPosition: "25% 25%" }}></img></TableCell>
-
                             <TableCell>
-                                <Button onClick={() => onEdit(screenshot)}>Edit</Button>
-                                <Button onClick={() => onDelete(screenshot._id)}>Delete</Button>
+                                <IconButton color="primary" onClick={() => onEdit(screenshot)}>
+                                    <EditIcon />
+                                </IconButton>
+                                <IconButton color="secondary" onClick={() => onDelete(screenshot._id)}>
+                                    <DeleteIcon />
+                                </IconButton>
                             </TableCell>
                         </TableRow>
                     ))}
