@@ -130,9 +130,9 @@ const PageScreenshotManagementPage = () => {
             <div style={{ display: 'flex' }}>
                 <SidebarMenu />
                 <div style={{ marginLeft: 50, padding: 20 }}>
-                    <h1>Page Screenshot Management</h1>
+                    <h1>Element Screenshot Management</h1>
                     <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
-                        Add Page Screenshot
+                        Add ELement Screenshot
                     </Button>
 
                     {/* Page Screenshot Table */}

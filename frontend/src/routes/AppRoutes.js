@@ -10,11 +10,11 @@ const AppRoutes = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/categories" element={<CategoryManagement />} />
-                <Route path="/websites" element={<WebsiteManagement />} />
-                <Route path="/pagescreenshots" element={<PageScreenshotManagementPage />} />
-                <Route path="/elementscreenshots" element={<ElementScreenshotManagementPage />} />
+                <Route path="/dashboard" element={<Home />} />
+                <Route path="/dashboard/categories" element={<CategoryManagement />} />
+                <Route path="/dashboard/websites" element={<WebsiteManagement />} />
+                <Route path="/dashboard/pagescreenshots" element={<PageScreenshotManagementPage />} />
+                <Route path="/dashboard/elementscreenshots" element={<ElementScreenshotManagementPage />} />
             </Routes>
         </Router>
     );
