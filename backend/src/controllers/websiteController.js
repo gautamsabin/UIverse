@@ -50,6 +50,15 @@ export const getAllWebsite = async (req, res) => {
         if (bodyValidator(req.body, res)) return;
         let websites;
         websites = await WebsiteModel.find({}).populate("category", 'name');
+        const results = await Promise.all(
+            websites.map(async (website) => {
+                const pageScreenshots = await PageScreenshotModel.find({ website: website._id });
+                return {
+                    website,
+                    pageScreenshots,
+                };
+            })
+        );
         //no Website find
         if (websites.length === 0) {
             return okResponse({
@@ -61,7 +70,7 @@ export const getAllWebsite = async (req, res) => {
         }
         okResponse({
             status: 200,
-            data: websites,
+            data: results,
             res,
             message: "websites retrieved successfully",
         });
@@ -158,7 +167,7 @@ export const updateWebsite = async (req, res) => {
                 description
             }, { session });
 
-            await session.commitTransaction(); 
+            await session.commitTransaction();
             return okResponse({
                 status: 200,
                 data: website,

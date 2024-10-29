@@ -20,6 +20,7 @@ const WebsiteTable = ({ websites, onEdit, onDelete }) => {
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
+                        <TableCell>Logo</TableCell>
                         <TableCell>Category</TableCell>
                         <TableCell>URL</TableCell>
                         <TableCell>Fonts</TableCell>
@@ -31,13 +32,22 @@ const WebsiteTable = ({ websites, onEdit, onDelete }) => {
                 </TableHead>
                 <TableBody>
                     {websites.map((website) => (
-                        <TableRow key={website._id}>
-                            <TableCell>{website.name}</TableCell>
-                            <TableCell>{website.category.name}</TableCell>
-                            <TableCell>{website.url}</TableCell>
-                            <TableCell>{website.fonts}</TableCell>
+                        <TableRow key={website.website._id}>
+                            <TableCell>{website.website.name}</TableCell>
                             <TableCell>
-                                {website.colors.split(',').map((color, index) => (
+                                {website.pageScreenshots
+                                    .filter((data) => data.page === "logo")
+                                    .map((logoScreenshot, index) => (
+                                        <div key={index}>
+                                            <img src={logoScreenshot.imageUrl} style={{ width: '50px', height: 'auto' }} alt={`${website.website.name} logo`} />
+                                        </div>
+                                    ))}
+                            </TableCell>
+                            <TableCell>{website.website.category.name}</TableCell>
+                            <TableCell>{website.website.url}</TableCell>
+                            <TableCell>{website.website.fonts}</TableCell>
+                            <TableCell>
+                                {website.website.colors.split(',').map((color, index) => (
                                     <div
                                         key={index}
                                         style={{
@@ -51,12 +61,12 @@ const WebsiteTable = ({ websites, onEdit, onDelete }) => {
                                     ></div>
                                 ))}
                             </TableCell>
-                            <TableCell>{website.description}</TableCell>
+                            <TableCell>{website.website.description}</TableCell>
                             <TableCell>
-                                <IconButton color="primary" onClick={() => onEdit(website)}>
+                                <IconButton color="primary" onClick={() => onEdit(website.website)}>
                                     <EditIcon />
                                 </IconButton>
-                                <IconButton color="secondary" onClick={() => onDelete(website._id)}>
+                                <IconButton color="secondary" onClick={() => onDelete(website.website._id)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </TableCell>

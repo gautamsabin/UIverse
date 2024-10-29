@@ -60,8 +60,8 @@ const PageScreenshotFormDialog = ({ open, handleClose, handleSubmit, isEditing, 
                         required
                     >
                         {websites.map((website) => (
-                            <MenuItem key={website._id} value={website}>
-                                {website.name}
+                            <MenuItem key={website.website._id} value={website.website}>
+                                {website.website.name}
                             </MenuItem>
                         ))}
                     </Select>
