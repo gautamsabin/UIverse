@@ -8,6 +8,7 @@ import websiteRouter from "./routes/websiteRoute.js";
 import pageScreenshotRoute from "./routes/pageScreenshotRoute.js";
 import elementScreenshotRoute from "./routes/elementScreenshotRoute.js";
 import authRouter from "./routes/authRoute.js";
+import favouriteRouter from "./routes/favouriteRoute.js";
 
 const app = express();
 const apiRoute = Router();
@@ -29,6 +30,7 @@ apiRoute
   .use("/pageScreenshot", pageScreenshotRoute)
   .use("/elementScreenshot", elementScreenshotRoute)
   .use("/auth", authRouter)
+  .use("/favourite", favouriteRouter);
 
 app.use("/api", apiRoute);
 
