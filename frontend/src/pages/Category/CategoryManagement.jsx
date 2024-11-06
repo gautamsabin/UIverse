@@ -24,7 +24,7 @@ const CategoryManagementPage = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/category");
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/category`);
             setCategories(response.data.payload.data);
         } catch (error) {
             console.error("Error fetching categories:", error.response);
@@ -52,7 +52,7 @@ const CategoryManagementPage = () => {
         if (isEditing) {
             // Update category
             try {
-                await axios.patch(`http://localhost:5000/api/category/${selectedCategory._id}`, selectedCategory);
+                await axios.patch(`${process.env.REACT_APP_BACKEND_API}/api/category/${selectedCategory._id}`, selectedCategory);
                 fetchCategories(); // Refresh the list
                 handleCloseDialog();
             } catch (error) {
@@ -63,7 +63,7 @@ const CategoryManagementPage = () => {
         } else {
             // Add new category
             try {
-                await axios.post("http://localhost:5000/api/category", selectedCategory);
+                await axios.post(`${process.env.REACT_APP_BACKEND_API}/api/category`, selectedCategory);
                 fetchCategories();
                 handleCloseDialog();
             } catch (error) {
@@ -76,7 +76,7 @@ const CategoryManagementPage = () => {
 
     const handleDeleteCategory = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/category/${deleteCategoryId}`);
+            await axios.delete(`${process.env.REACT_APP_BACKEND_API}/api/category/${deleteCategoryId}`);
             fetchCategories(); // Refresh the list
             handleCloseDeleteModal();
         } catch (error) {

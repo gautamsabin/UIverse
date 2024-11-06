@@ -26,7 +26,7 @@ const PageScreenshotManagementPage = () => {
 
     const fetchPageScreenshots = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/pagescreenshot");
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/pagescreenshot`);
             setPageScreenshots(response.data.payload.data);
         } catch (error) {
             console.error("Error fetching page screenshots:", error);
@@ -37,7 +37,7 @@ const PageScreenshotManagementPage = () => {
 
     const fetchWebsites = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/website");
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/website`);
             setWebsites(response.data.payload.data);
         } catch (error) {
             console.error("Error fetching websites:", error);
@@ -69,7 +69,7 @@ const PageScreenshotManagementPage = () => {
 
             // Update existing screenshot
             try {
-                await axios.patch(`http://localhost:5000/api/pagescreenshot/${selectedPageScreenshot._id}`, data, {
+                await axios.patch(`${process.env.REACT_APP_BACKEND_API}/api/pagescreenshot/${selectedPageScreenshot._id}`, data, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -84,7 +84,7 @@ const PageScreenshotManagementPage = () => {
         } else {
             // Add new screenshot
             try {
-                await axios.post("http://localhost:5000/api/pagescreenshot", data, {
+                await axios.post(`${process.env.REACT_APP_BACKEND_API}/api/pagescreenshot`, data, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -101,7 +101,7 @@ const PageScreenshotManagementPage = () => {
 
     const handleDeleteScreenshot = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/pagescreenshot/${deleteScreenshotId}`);
+            await axios.delete(`${process.env.REACT_APP_BACKEND_API}/api/pagescreenshot/${deleteScreenshotId}`);
             fetchPageScreenshots(); // Refresh the list
             handleCloseDeleteModal();
         } catch (error) {

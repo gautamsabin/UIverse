@@ -26,7 +26,7 @@ const WebsiteManagementPage = () => {
 
     const fetchWebsites = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/website");
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/website`);
             setWebsites(response.data.payload.data);
         } catch (error) {
             console.error("Error fetching websites:", error);
@@ -37,7 +37,7 @@ const WebsiteManagementPage = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/category");
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/category`);
             setCategories(response.data.payload.data); // Set fetched categories
         } catch (error) {
             console.error("Error fetching categories:", error);
@@ -73,7 +73,7 @@ const WebsiteManagementPage = () => {
         if (isEditing) {
             // Update website
             try {
-                await axios.patch(`http://localhost:5000/api/website/${selectedWebsite._id}`, websiteData);
+                await axios.patch(`${process.env.REACT_APP_BACKEND_API}/api/website/${selectedWebsite._id}`, websiteData);
                 fetchWebsites(); // Refresh the list
                 handleCloseDialog();
             } catch (error) {
@@ -85,7 +85,7 @@ const WebsiteManagementPage = () => {
             // Add new website
             try {
                 console.log(websiteData)
-                await axios.post("http://localhost:5000/api/website", websiteData);
+                await axios.post(`${process.env.REACT_APP_BACKEND_API}/api/website`, websiteData);
                 fetchWebsites();
                 handleCloseDialog();
             } catch (error) {
@@ -98,7 +98,7 @@ const WebsiteManagementPage = () => {
 
     const handleDeleteWebsite = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/website/${deleteWebsiteId}`);
+            await axios.delete(`${process.env.REACT_APP_BACKEND_API}/api/website/${deleteWebsiteId}`);
             fetchWebsites(); // Refresh the list
             handleCloseDeleteModal();
         } catch (error) {
