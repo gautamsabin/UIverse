@@ -1,0 +1,18 @@
+@import url("non.geist");
+
+#root {
+  font-family: Inter;
+  /* position: relative; */
+  min-height: 100vh;
+}
+
+.head-text {
+  width: 593px;
+  color: #eaebef;
+  font-size: 60px;
+  font-family: "Geist Variable";
+  font-weight: 700;
+  line-height: 120%; /* 72px */
+  letter-spacing: -0.6px;
+  margin-bottom: 15px;
+}

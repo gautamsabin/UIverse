@@ -1,0 +1,28 @@
+.card-container {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  row-gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 100px;
+  padding-top: 22px;
+}
+
+.color-card-container {
+  display: flex;
+  flex-direction: row;
+  column-gap: 18px !important;
+  row-gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 100px;
+  padding-top: 22px;
+}
+
+.loader {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  padding-top: 75px;
+}

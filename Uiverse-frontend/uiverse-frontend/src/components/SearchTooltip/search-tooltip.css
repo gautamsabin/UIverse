@@ -1,0 +1,89 @@
+@import url("non.geist");
+
+.tooltip {
+  position: absolute;
+  top: calc(100% + 10px);
+  display: flex;
+  gap: 50px;
+  padding: 16px;
+  border-radius: 14px;
+  background-color: #1e1d22;
+  /* max-width: 640px;
+  min-width: 180px; */
+  width: 100%;
+  max-width: 945px;
+}
+
+.searchbar-category-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.searchbar-category {
+  display: flex;
+  gap: 5px;
+  width: 128px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tooltip .searchbar-category-container .active {
+  background-color: #242328;
+}
+
+.tooltip .searchbar-category-container .searchbar-category span {
+  color: #fff;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 140%; /* 22.4px */
+  letter-spacing: -0.16px;
+  flex: 1;
+}
+
+.tooltip .searchbar-category-container .searchbar-category img {
+  width: 18px;
+  height: 18px;
+}
+
+.searchbar-subcategory-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.searchbar-subcategory-container .heading {
+  color: #fff;
+  font-family: "Geist Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 25.2px */
+  letter-spacing: -0.18px;
+}
+
+.searchbar-subcategory {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+
+.searchbar-subcategory-title {
+  padding: 10px 20px;
+  background-color: #242328;
+  color: #fff;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.16px;
+  text-transform: capitalize;
+  border-radius: 8px;
+}

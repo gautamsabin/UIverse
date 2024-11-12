@@ -1,0 +1,192 @@
+@import url("non.geist");
+
+.individual-website-container {
+  padding-top: 50px;
+  padding-bottom: 123px;
+}
+
+.top-section {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  padding-bottom: 60px;
+  /* position: relative; */
+}
+
+.landing-page-img {
+  height: 3994px;
+  width: 798px;
+  border-radius: 8px;
+}
+
+.individual-website-information {
+  position: sticky;
+  top: 110px;
+  width: 310px;
+  display: flex;
+  padding: 25px 22px;
+  flex: 1;
+  flex-direction: column;
+  border-radius: 15px;
+  background: #1e1d22;
+  height: max-content;
+  gap: 30px;
+}
+
+.website-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.individual-website-title {
+  color: #eaebef;
+
+  font-family: "Geist Variable";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 28.8px */
+  letter-spacing: -0.24px;
+}
+
+.website-description {
+  color: #dedede;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: -0.16px;
+}
+
+.website-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.website-body .website {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.website-body .website .title {
+  color: #dedede;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: -0.16px;
+  padding-right: 20px;
+}
+
+.website-body .website .content {
+  color: #dedede;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500 !important;
+  line-height: 140%; /* 22.4px */
+  letter-spacing: -0.16px;
+  justify-content: flex-start;
+}
+
+.color-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.color-wrapper .color {
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  flex-wrap: wrap;
+}
+
+.website-redirect-button {
+  display: flex;
+  flex: 1;
+  padding: 14px 24px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  background: #5323b7;
+  text-decoration: none;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 19.6px */
+  letter-spacing: -0.14px;
+  color: #fff;
+}
+
+.bottom-section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.more-website-heading {
+  color: #fff;
+  font-family: "Geist Variable";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%; /* 28.8px */
+  letter-spacing: -0.24px;
+}
+
+.more-website-datas {
+  display: flex;
+  row-gap: 30px;
+  column-gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.more-data-container {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 14px 21px 14px;
+  border-radius: 14px;
+  background: #242328;
+  gap: 17px;
+}
+
+.more-website-img {
+  width: 340px;
+  height: 192px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 8px;
+}
+
+.more-data-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.more-data-title span {
+  color: #dedede;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%; /* 22.4px */
+  letter-spacing: -0.16px;
+}
+
+.more-data-title span::first-letter {
+  text-transform: capitalize;
+}
+
+.addtofavourite-icon {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+}

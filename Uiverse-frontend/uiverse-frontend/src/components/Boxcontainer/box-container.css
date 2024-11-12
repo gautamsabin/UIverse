@@ -1,0 +1,7 @@
+.body-container {
+  padding-top: 59px;
+  margin-bottom: 15px;
+  min-height: calc(100vh - 234px);
+  width: 80%;
+  margin: 0 auto;
+}

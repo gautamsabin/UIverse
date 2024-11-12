@@ -1,0 +1,27 @@
+.otp-field-container {
+  display: flex;
+  gap: 17px;
+  padding-bottom: 32px;
+}
+
+.otp-field-container input {
+  width: 77px;
+  height: 77px;
+  border-radius: 15px;
+  background: #1e1d22;
+  border: none;
+  padding: 0;
+  text-align: center;
+  color: #dedede;
+  font-family: Inter;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 125%; /* 40px */
+}
+
+.otp-field-container input:focus {
+  outline-width: 1px;
+  outline-style: solid;
+  outline-color: #46474d;
+}
