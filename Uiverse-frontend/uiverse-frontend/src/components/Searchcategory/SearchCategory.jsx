@@ -7,8 +7,14 @@ import { useContext } from "react";
 import { UiverseContext } from "../../Context/Context";
 
 const Searchcategory = () => {
-  const { activeCategory, setActiveCategory } = useContext(UiverseContext);
+  const { activeCategory, setActiveCategory, user, token } =
+    useContext(UiverseContext);
 
+  console.log(
+    "user ======================>>>>>>",
+    localStorage.getItem("userId"),
+    localStorage.getItem("token")
+  );
   return (
     <div className="search-category">
       {["Websites", "UI Elements", "Color System", "Type System"].map(

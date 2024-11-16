@@ -79,3 +79,24 @@ export async function sendCode(emailData) {
   }
 }
 
+export async function verifyCode(verifyCodeData) {
+  const url = `${baseUrl}/auth/verify-code`;
+
+  console.log("verify code data in http is=====>", verifyCodeData);
+  console.log("Fetching from:", url);
+
+  try {
+    const response = await axios.post(url, verifyCodeData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response;
+
+    console.log("Response data:", response?.data);
+  } catch (error) {
+    console.error("An error occurred while signing in", error);
+    throw new Error("An error occurred while while signing in");
+  }
+}

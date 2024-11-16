@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
 
 import {
   fetchCategories,
@@ -15,6 +16,9 @@ export default function Contextprovider({ children }) {
   const [activeSubcategory, setActiveSubcategory] = useState("All");
   const [subCategoriesData, setSubCategoriesData] = useState(null);
   const [searchValue, setSearchValue] = useState("");
+
+  const [user, setUser] = useState({});
+  const [token, setToken] = useState(localStorage.getItem("token") ?? "");
 
   const [websiteDataWithElements, setWebsiteDataWithElements] = useState(null);
 
@@ -34,6 +38,17 @@ export default function Contextprovider({ children }) {
     queryFn: fetchElementScreenshot,
     staleTime: 10000,
   });
+
+  const login = (userData) => {
+    setUser(userData);
+  };
+
+  const logout = () => {
+    setUser(null);
+    setToken("");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userID");
+  };
 
   useEffect(() => {
     let elementData;
@@ -101,6 +116,10 @@ export default function Contextprovider({ children }) {
     searchValue,
     setSearchValue,
     isFetchingWebsites,
+    token,
+    setToken,
+    setUser,
+    logout,
   };
   return (
     <UiverseContext.Provider value={contextValue}>

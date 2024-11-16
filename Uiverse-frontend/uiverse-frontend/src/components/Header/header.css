@@ -96,3 +96,22 @@
   line-height: 140%; /* 22.4px */
   letter-spacing: -0.16px;
 }
+
+.logged-in-header {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.watch-favourites {
+  width: 24px;
+  height: 24px;
+  color: #dedede;
+  font-weight: 700;
+}
+
+.profile-img {
+  width: 46px;
+  height: 46px;
+}
