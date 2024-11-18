@@ -11,6 +11,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import CardDetails from "./pages/CardDetails";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./util/http";
+import Favourites from "./pages/Favourites";
 
 function App() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function App() {
               <Route path=":cardId" element={<CardDetails />} />
             </Route>
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/favourite" element={<Favourites />} />
           </Routes>
           {location.pathname !== "/signin" && <Footer />}
         </Contextprovider>

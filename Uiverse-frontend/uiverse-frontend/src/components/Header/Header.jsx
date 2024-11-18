@@ -81,7 +81,9 @@ const Header = () => {
               </Link>
             ) : (
               <div className="logged-in-header">
-                <AiOutlineHeart className="watch-favourites" />
+                <Link to="/favourite">
+                  <AiOutlineHeart className="watch-favourites" />
+                </Link>
                 <Dropdown menu={{ items: items }} placement="bottom">
                   <img
                     src={user_profile}

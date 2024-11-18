@@ -28,8 +28,6 @@ const CardDetails = () => {
 
   const formattedDate = moment(data?.website?.updatedAt).format("MMMM YYYY");
 
-  console.log("data of selectedf website is ======> ", data);
-  console.log("more website Data =======>", moreWebsiteData);
   return (
     <Boxcontainer>
       <div className="individual-website-container">

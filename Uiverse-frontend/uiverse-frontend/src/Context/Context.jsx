@@ -1,10 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
+import moment from "moment";
 
 import {
   fetchCategories,
   fetchElementScreenshot,
+  fetchFavouriteWebsites,
   fetchWebsites,
 } from "../util/http";
 import { findSubcategoryList } from "../util/findSubcategoryList";
@@ -39,6 +41,13 @@ export default function Contextprovider({ children }) {
     staleTime: 10000,
   });
 
+  const { data: favouriteWebsiteData, refetch: refetchFavourites } = useQuery({
+    queryKey: ["favourites"],
+    queryFn: () =>
+      fetchFavouriteWebsites({ userId: localStorage.getItem("userId") }),
+    staleTime: 0,
+  });
+
   const login = (userData) => {
     setUser(userData);
   };
@@ -47,8 +56,15 @@ export default function Contextprovider({ children }) {
     setUser(null);
     setToken("");
     localStorage.removeItem("token");
-    localStorage.removeItem("userID");
+    localStorage.removeItem("userId");
   };
+
+  useEffect(() => {
+    const now = moment();
+    if (moment(user?.sessionExpiresAt).isBefore(now)) {
+      logout();
+    }
+  }, [user]);
 
   useEffect(() => {
     let elementData;
@@ -60,7 +76,7 @@ export default function Contextprovider({ children }) {
         ])
       );
 
-      console.log("element map in context =======>", elementData);
+      console.log("element map in context =======>", favouriteWebsiteData);
       const websiteDataWithElements = allWebsiteData
         ?.map((websiteData) => ({
           ...websiteData,
@@ -120,6 +136,8 @@ export default function Contextprovider({ children }) {
     setToken,
     setUser,
     logout,
+    favouriteWebsiteData,
+    refetchFavourites,
   };
   return (
     <UiverseContext.Provider value={contextValue}>

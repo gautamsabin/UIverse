@@ -1,6 +1,7 @@
 .card {
-  /* width: 270px; */
+  width: 242px;
   display: flex;
+  /* flex: 1; */
   flex-direction: column;
   gap: 17px;
   border-radius: 14px;
@@ -70,4 +71,12 @@
 
 .individual-color {
   flex: 1;
+}
+
+.favourite-icon-selected {
+  color: red;
+
+  font-weight: 600;
+  width: 20px;
+  height: 20px;
 }
