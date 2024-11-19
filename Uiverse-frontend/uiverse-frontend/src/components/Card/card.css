@@ -9,6 +9,17 @@
   background-color: #242328;
 }
 
+.card-ui {
+  width: 340px;
+  display: flex;
+  /* flex: 1; */
+  flex-direction: column;
+  gap: 17px;
+  border-radius: 14px;
+  padding: 14px;
+  background-color: #242328;
+}
+
 .card-image {
   height: 265px;
   width: 242px;

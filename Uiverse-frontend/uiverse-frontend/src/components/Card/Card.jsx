@@ -71,7 +71,7 @@ const Card = ({ websiteData, activeCategory }) => {
   };
 
   return (
-    <div className="card">
+    <div className={activeCategory === "Websites" || activeCategory === "Type System" ? "card": "card-ui"}>
       <Link to={`/card/${websiteData?.website?._id}`}>
         {activeCategory === "UI Elements" ? (
           <img className="element-img" src={websiteData?.element?.imageUrl} />
