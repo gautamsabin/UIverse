@@ -23,6 +23,17 @@
       "webRoot": "${workspaceFolder}/frontend/src",
       "sourceMaps": true,
       "trace": true
+    },
+    // Frontend Debugging (React using Chrome)
+    {
+      "name": "Debug Vite (Basic)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173", // Adjust the port if needed
+      "webRoot": "${workspaceFolder}/Uiverse-frontend/uiverse-frontend/src",
+      "sourceMaps": true,
+      "trace": true,
+      "skipFiles": ["<node_internals>/**"]
     }
   ],
   "compounds": [

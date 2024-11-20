@@ -32,7 +32,9 @@ const CardDetails = () => {
     <Boxcontainer>
       <div className="individual-website-container">
         <div className="top-section">
-          <img className="landing-page-img" src={landingPageUrl} />
+          <div className="image-container">
+            <img className="landing-page-img" src={landingPageUrl} />
+          </div>
           <div className="individual-website-information">
             <div className="website-header">
               <span className="individual-website-title">
@@ -89,7 +91,7 @@ const CardDetails = () => {
                     <img className="more-website-img" src={data?.imageUrl} />
                     <div className="more-data-title">
                       <span>{data?.pageType}</span>
-                      <AiOutlineHeart className="addtofavourite-icon"/>
+                      <AiOutlineHeart className="addtofavourite-icon" />
                     </div>
                   </div>
                 );

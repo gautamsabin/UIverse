@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const queryClient = new QueryClient();
 
-const baseUrl = "http://localhost:9000/api";
+const baseUrl = "https://uidiscover-backend.onrender.com/api";
 
 export async function fetchCategories() {
   const url = `${baseUrl}/category`;

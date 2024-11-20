@@ -13,16 +13,21 @@
   /* position: relative; */
 }
 
+.image-container {
+  flex: 1;
+  max-width: 70%;
+}
+
 .landing-page-img {
-  height: 3994px;
-  width: 798px;
+  height: auto;
+  width: 100%;
   border-radius: 8px;
 }
 
 .individual-website-information {
   position: sticky;
   top: 110px;
-  width: 310px;
+  max-width: 30%;
   display: flex;
   padding: 25px 22px;
   flex: 1;
@@ -46,7 +51,8 @@
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
-  line-height: 120%; /* 28.8px */
+  line-height: 120%;
+  /* 28.8px */
   letter-spacing: -0.24px;
 }
 
@@ -88,7 +94,8 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 500 !important;
-  line-height: 140%; /* 22.4px */
+  line-height: 140%;
+  /* 22.4px */
   letter-spacing: -0.16px;
   justify-content: flex-start;
 }
@@ -119,7 +126,8 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 19.6px */
+  line-height: 140%;
+  /* 19.6px */
   letter-spacing: -0.14px;
   color: #fff;
 }
@@ -136,7 +144,8 @@
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
-  line-height: 120%; /* 28.8px */
+  line-height: 120%;
+  /* 28.8px */
   letter-spacing: -0.24px;
 }
 
@@ -177,7 +186,8 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 22.4px */
+  line-height: 140%;
+  /* 22.4px */
   letter-spacing: -0.16px;
 }
 
