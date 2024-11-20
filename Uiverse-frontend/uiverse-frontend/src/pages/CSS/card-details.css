@@ -154,7 +154,7 @@
   row-gap: 30px;
   column-gap: 18px;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .more-data-container {
