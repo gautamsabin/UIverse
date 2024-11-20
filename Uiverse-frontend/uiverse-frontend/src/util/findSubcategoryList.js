@@ -1,7 +1,10 @@
 import namer from "color-namer";
+import tinycolor from "tinycolor2";
 
 export function getColorName(hex) {
-  const name = namer(hex).basic[0].name;
+  const validColor = tinycolor(hex).toHexString();
+
+  const name = namer(validColor).basic[0].name;
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
 export function findSubcategoryList(dataList, category) {

@@ -1,21 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import logo from "../assets/images/logo.svg";
 import "./CSS/signin.css";
 import { useMutation } from "@tanstack/react-query";
-import { sendCode } from "../util/http";
+import { sendCode, verifyCode } from "../util/http";
 import OtpField from "../components/OtpField/otpfield";
+import { UiverseContext } from "../Context/Context";
 
 const SignIn = () => {
-  const [otp, setOtp] = useState(new Array(4).fill(""));
+  const navigate = useNavigate();
+
+  const { setUser, setToken } = useContext(UiverseContext);
+  const [otp, setOtp] = useState(new Array(6).fill(""));
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [emailId, setEmailId] = useState(null);
-  const { mutateAsync } = useMutation({
+
+  const { mutateAsync: mutateAsyncSendCode } = useMutation({
     mutationFn: sendCode,
     onSuccess: () => {
       setIsCodeSent(true);
+    },
+  });
+
+  const { mutateAsync: mutateAsyncVerifyCode } = useMutation({
+    mutationFn: verifyCode,
+    onSuccess: () => {
+      navigate("/");
     },
   });
 
@@ -27,7 +39,7 @@ const SignIn = () => {
 
     setEmailId(data?.email);
     try {
-      const response = await mutateAsync(data);
+      const response = await mutateAsyncSendCode(data);
       // console.log("Email data is ======>>>>", data);
       // console.log("Response:", response);
     } catch (error) {
@@ -35,7 +47,37 @@ const SignIn = () => {
     }
   };
 
-  console.log("the iscode sent is ===>", otp.join(""));
+  const handleVerifyCode = async () => {
+    // const data = {
+    //   email: emailId,
+    //   code: otp.join(""),
+    // };
+    try {
+      const response = await mutateAsyncVerifyCode({
+        email: emailId,
+        code: otp.join(""),
+      });
+      // const token = response?.payload?.data?.token;
+      localStorage.setItem("token", response?.data?.payload?.data?.token);
+      localStorage.setItem(
+        "userId",
+        response?.data?.payload?.data?.userData?._id
+      );
+
+      setUser(response?.data?.payload?.data?.userData);
+      setToken(response?.data?.payload?.data?.token);
+
+      // console.log("response data is ===========>", response);
+      // console.log("token is ======>>>>", response?.data?.payload?.data?.token);
+      // console.log(
+      //   "user Data is :============>",
+      //   response?.data?.payload?.data?.userData
+      // );
+    } catch (error) {
+      console.error("Error during verifying code:", error);
+    }
+  };
+
   return (
     <div className="signin-background">
       {!isCodeSent && (
@@ -76,7 +118,11 @@ const SignIn = () => {
             We sent a temporary login code to <a>{emailId}</a>. Not you?
           </span>
           <OtpField otp={otp} setOtp={setOtp} />
-          <button className="form-submit-btn" type="submit">
+          <button
+            className="form-submit-btn"
+            type="submit"
+            onClick={handleVerifyCode}
+          >
             Continue with Email
           </button>
           <span className="signin-footer">

@@ -1,10 +1,46 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./card.css";
 import { AiOutlineHeart } from "react-icons/ai";
+import { addToFavourite, deleteFromFavourite } from "../../util/http";
+import { useMutation } from "@tanstack/react-query";
+import { UiverseContext } from "../../Context/Context";
 
 const Card = ({ websiteData, activeCategory }) => {
+  const { favouriteWebsiteData, refetchFavourites } =
+    useContext(UiverseContext);
+
+  const [isFavourite, setIsFavourite] = useState(false);
+
+  useEffect(() => {
+    if (activeCategory === "Favourites") {
+      setIsFavourite(true);
+    }
+
+    const favouriteWebsiteId = favouriteWebsiteData?.map(
+      (data) => data?.website?._id
+    );
+
+    if (favouriteWebsiteId?.includes(websiteData?.website?._id)) {
+      setIsFavourite(true);
+    }
+  }, [websiteData, favouriteWebsiteData]);
+
+  const { mutateAsync: addToFavouriteMutate } = useMutation({
+    mutationFn: addToFavourite,
+    onSuccess: () => {
+      refetchFavourites();
+    },
+  });
+
+  const { mutateAsync: deleteFromFavouriteMutate } = useMutation({
+    mutationFn: deleteFromFavourite,
+    onSuccess: () => {
+      refetchFavourites();
+    },
+  });
+
   const logoUrl = websiteData?.pageScreenshots?.find(
     (data) => data?.page === "logo"
   );
@@ -13,8 +49,29 @@ const Card = ({ websiteData, activeCategory }) => {
     (data) => data?.page === "landing"
   );
 
+  const handleFavouriteClick = async (websiteId) => {
+    if (activeCategory === "Favourites") {
+      try {
+        const response = await deleteFromFavouriteMutate({ id: websiteId });
+        console.log("add to favourite response is ====>", response);
+      } catch (error) {
+        console.error("Error occurred while deleting from favourite:", error);
+      }
+    } else {
+      try {
+        const res = await addToFavouriteMutate({
+          userId: localStorage.getItem("userId"),
+          websiteId: websiteId,
+        });
+        console.log("add to favourite response is ====>", res);
+      } catch (error) {
+        console.error("Error occurred while adding to favourite:", error);
+      }
+    }
+  };
+
   return (
-    <div className="card">
+    <div className={activeCategory === "Websites" || activeCategory === "Type System" ? "card": "card-ui"}>
       <Link to={`/card/${websiteData?.website?._id}`}>
         {activeCategory === "UI Elements" ? (
           <img className="element-img" src={websiteData?.element?.imageUrl} />
@@ -44,7 +101,14 @@ const Card = ({ websiteData, activeCategory }) => {
         </div>
 
         <span className="card-title">{websiteData?.website?.name}</span>
-        <AiOutlineHeart className="favourite-icon" />
+        <AiOutlineHeart
+          className={
+            isFavourite && localStorage.getItem("token")
+              ? "favourite-icon-selected"
+              : "favourite-icon"
+          }
+          onClick={() => handleFavouriteClick(websiteData?.website?._id)}
+        />
       </div>
     </div>
   );

@@ -1,9 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
+import moment from "moment";
 
 import {
   fetchCategories,
   fetchElementScreenshot,
+  fetchFavouriteWebsites,
   fetchWebsites,
 } from "../util/http";
 import { findSubcategoryList } from "../util/findSubcategoryList";
@@ -15,6 +18,9 @@ export default function Contextprovider({ children }) {
   const [activeSubcategory, setActiveSubcategory] = useState("All");
   const [subCategoriesData, setSubCategoriesData] = useState(null);
   const [searchValue, setSearchValue] = useState("");
+
+  const [user, setUser] = useState({});
+  const [token, setToken] = useState(localStorage.getItem("token") ?? "");
 
   const [websiteDataWithElements, setWebsiteDataWithElements] = useState(null);
 
@@ -35,6 +41,31 @@ export default function Contextprovider({ children }) {
     staleTime: 10000,
   });
 
+  const { data: favouriteWebsiteData, refetch: refetchFavourites } = useQuery({
+    queryKey: ["favourites"],
+    queryFn: () =>
+      fetchFavouriteWebsites({ userId: localStorage.getItem("userId") }),
+    staleTime: 0,
+  });
+
+  const login = (userData) => {
+    setUser(userData);
+  };
+
+  const logout = () => {
+    setUser(null);
+    setToken("");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+  };
+
+  useEffect(() => {
+    const now = moment();
+    if (moment(user?.sessionExpiresAt).isBefore(now)) {
+      logout();
+    }
+  }, [user]);
+
   useEffect(() => {
     let elementData;
     if (activeCategory === "UI Elements") {
@@ -45,7 +76,7 @@ export default function Contextprovider({ children }) {
         ])
       );
 
-      console.log("element map in context =======>", elementData);
+      console.log("element map in context =======>", favouriteWebsiteData);
       const websiteDataWithElements = allWebsiteData
         ?.map((websiteData) => ({
           ...websiteData,
@@ -101,6 +132,12 @@ export default function Contextprovider({ children }) {
     searchValue,
     setSearchValue,
     isFetchingWebsites,
+    token,
+    setToken,
+    setUser,
+    logout,
+    favouriteWebsiteData,
+    refetchFavourites,
   };
   return (
     <UiverseContext.Provider value={contextValue}>
