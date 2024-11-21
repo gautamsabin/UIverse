@@ -25,7 +25,7 @@ const Card = ({ websiteData, activeCategory }) => {
     if (favouriteWebsiteId?.includes(websiteData?.website?._id)) {
       setIsFavourite(true);
     }
-  }, [websiteData, favouriteWebsiteData]);
+  }, [websiteData, favouriteWebsiteData, activeCategory]);
 
   const { mutateAsync: addToFavouriteMutate } = useMutation({
     mutationFn: addToFavourite,
@@ -49,6 +49,8 @@ const Card = ({ websiteData, activeCategory }) => {
     (data) => data?.page === "landing"
   );
 
+  const [imgUrl, setImgUrl] = useState(landingPageUrl?.imageUrl);
+
   const handleFavouriteClick = async (websiteId) => {
     if (activeCategory === "Favourites") {
       try {
@@ -70,9 +72,30 @@ const Card = ({ websiteData, activeCategory }) => {
     }
   };
 
+  useEffect(() => {
+    if (activeCategory === "UI Elements") {
+      setImgUrl(websiteData?.element?.imageUrl);
+    }
+  }, [activeCategory, websiteData]);
+
   return (
-    <div className={activeCategory === "Websites" || activeCategory === "Type System" ? "card": "card-ui"}>
-      <Link to={`/card/${websiteData?.website?._id}`}>
+    <div
+      className={
+        activeCategory === "Websites" || activeCategory === "Type System"
+          ? "card"
+          : "card-ui"
+      }
+    >
+      <Link
+        to={`/card/${websiteData?.website?._id}`}
+        state={{
+          imgUrl,
+          elementDetails: {
+            pageType: websiteData?.element?.element,
+            imageUrl: websiteData?.element?.imageUrl,
+          },
+        }}
+      >
         {activeCategory === "UI Elements" ? (
           <img className="element-img" src={websiteData?.element?.imageUrl} />
         ) : activeCategory === "Color System" ? (
