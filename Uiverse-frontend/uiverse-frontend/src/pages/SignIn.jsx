@@ -6,7 +6,7 @@ import logo from "../assets/images/logo.svg";
 import "./CSS/signin.css";
 import { useMutation } from "@tanstack/react-query";
 import { sendCode, verifyCode } from "../util/http";
-import OtpField from "../components/OtpField/Otpfield";
+import OtpField from "../components/OtpField/OtpField";
 import { UiverseContext } from "../Context/Context";
 
 const SignIn = () => {
